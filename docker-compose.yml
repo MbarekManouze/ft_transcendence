@@ -1,0 +1,51 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: front
+    restart: unless-stopped
+    depends_on:
+      - backend
+    build:
+      context: ./front
+      dockerfile: Dockerfile
+    ports:
+      - 5173:5173
+    environment:
+      NODE_ENV: production
+    networks:
+      - networkwork
+
+  backend:
+    container_name: backend
+    restart: unless-stopped
+    depends_on:
+      - database
+    build:
+      context: ./back
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    networks:
+      - networkwork
+
+  database:
+    image: postgres:13
+    container_name: database
+    restart: always
+    ports:
+      - 5432:5432
+    expose:
+      - 5432
+    env_file:
+      - ./back/.env
+    environment:
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      POSTGRES_DB: ${POSTGRES_DB}
+    networks:
+      - networkwork
+
+networks:
+  networkwork:
+    driver: bridge
