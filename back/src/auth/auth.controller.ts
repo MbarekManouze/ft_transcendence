@@ -109,7 +109,7 @@ export class AuthController {
   async Verify_QrCode(@Body() body: NumberDto, @Req() req) {
     const msg = await this.service.Verify_QrCode(body, req);
     if (msg == null) return null;
-    return msg.msg; // NOTE(XENOBAS): COULD BE msg?.msg to treat in case msg goes UNDEFINED
+    return msg.msg;
   }
 
   /************************************** */
@@ -145,7 +145,7 @@ export class AuthController {
           AND: [{ userId: decoded.id }, { id_user: body.id_user }],
         },
       });
-      // NOTE(XENOBAS): YOU COULD USE Promise.all
+      // ): YOU COULD USE Promise.all
       const user = await this.prisma.user.findUnique({
         where: { id_user: decoded.id },
         include: { freind: true },

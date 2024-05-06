@@ -113,7 +113,7 @@ export class AuthService {
       if (
         authenticator.verify({ token: body.inputValue, secret: user.secretKey })
       ){
-        return { msg: "true" }; // NOTE(XENOBAS): WHAT THE HELL IS THIS ?
+        return { msg: "true" };
       }
       else 
         return { msg: "false" };
